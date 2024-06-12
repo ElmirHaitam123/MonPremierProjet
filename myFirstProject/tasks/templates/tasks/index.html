@@ -1,0 +1,27 @@
+<!-- tasks/templates/tasks/index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+    <title>Task List</title>
+</head>
+<body>
+    <h1>Task List</h1>
+    <form method="post" action="{% url 'add_task' %}">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="New task">
+        <button type="submit">Add</button>
+    </form>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <span class="{% if task.complete %}completed{% endif %}">{{ task.title }}</span>
+                <a href="{% url 'complete_task' task.id %}">Complete</a>
+                <a href="{% url 'delete_task' task.id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
